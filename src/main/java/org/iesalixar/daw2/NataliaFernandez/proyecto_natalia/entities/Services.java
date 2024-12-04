@@ -1,4 +1,4 @@
-package org.iesalixar.daw2.NataliaFernandez.projecto_natalia.entities;
+package org.iesalixar.daw2.NataliaFernandez.proyecto_natalia.entities;
 
 
 import jakarta.persistence.*;
@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
 
 
 @Entity // Marca esta clase como una entidad JPA.

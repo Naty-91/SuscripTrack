@@ -1,4 +1,4 @@
-package org.iesalixar.daw2.NataliaFernandez.projecto_natalia;
+package org.iesalixar.daw2.NataliaFernandez.proyecto_natalia;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package org.iesalixar.daw2.NataliaFernandez.projecto_natalia.controllers;
+package org.iesalixar.daw2.NataliaFernandez.proyecto_natalia.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

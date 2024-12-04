@@ -1,4 +1,4 @@
-package org.iesalixar.daw2.NataliaFernandez.projecto_natalia.entities;
+package org.iesalixar.daw2.NataliaFernandez.proyecto_natalia.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -10,8 +10,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "categories")
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "services") // Evita recursividad infinita
