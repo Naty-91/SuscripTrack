@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head ('App de manejo de suscripciones ')"></head>
+<body>
+
+<!-- Incluir el fragmento del header -->
+<header th:replace="fragments/header :: header"></header>
+
+<main class="container mt-5">
+    <h1 th:text="#{msg.service.title}"></h1>
+
+    <!-- Muestra un mensaje de error si hay algún problema -->
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <!-- Muestra la lista de servicios en una tabla -->
+    <table class="table table-bordered mt-3">
+        <thead>
+        <tr>
+            <th th:text="#{msg.service.id}"></th>
+            <th th:text="#{msg.service.code}"></th>
+            <th th:text="#{msg.service.name}"></th>
+            <th th:text="#{msg.service.description}"></th>
+            <th th:text="#{msg.service.actions}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="service : ${listServices}">
+            <td th:text="${service.id}"></td>
+            <td th:text="${service.code}"></td>
+            <td th:text="${service.name}"></td>
+            <td th:text="${service.description}"></td>
+            <td>
+                <!-- Botón para editar -->
+                <a th:href="@{/services/edit(id=${service.id})}" class="btn btn-success btn-sm" th:text="#{msg.service.edit}"></a>
+                <!-- Botón para eliminar -->
+                <form th:action="@{/services/delete}" method="post" class="d-inline">
+                    <input type="hidden" name="id" th:value="${service.id}"/>
+                    <button type="submit" class="btn btn-danger btn-sm"
+                            th:onclick="return confirm('#{msg.service.confirm}');"
+                            th:text="#{msg.service.delete}">
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Botón para añadir un nuevo servicio -->
+    <a th:href="@{/services/new}" class="btn btn-success mt-3" th:text="#{msg.service.add}"></a>
+
+    <!-- Volver a la página principal -->
+    <a href="#" th:href="@{/}" class="btn btn-secondary mt-3" th:text="#{msg.service.returnback}"></a>
+</main>
+
+<!-- Incluir el fragmento del footer -->
+<footer th:replace="fragments/footer :: footer"></footer>
+
+</body>
+</html>

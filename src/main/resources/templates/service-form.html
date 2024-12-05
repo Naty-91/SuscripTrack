@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head ('SuscripTrack- Insertar/Actualizar Servicio')"></head>
+
+<body>
+
+<!-- Incluir el fragmento del header -->
+<header th:replace="fragments/header :: header"></header>
+
+<main class="container mt-5">
+  <h1 th:text="${service.id == null} ? #{msg.service-form.add} : #{msgs-service.edit}"></h1>
+
+  <!-- Mostrar un mensaje de error si existe -->
+  <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+  <form th:action="${service.id == null} ? @{/services/insert} : @{/services/update}"
+        th:object="${service}" method="post" class="mt-4">
+    <input type="hidden" th:field="*{id}" />
+    <div th:if="${#fields.hasErrors('id')}" class="text-danger" th:errors="*{id}"></div>
+
+    <div class="mb-3">
+      <label for="code" class="form-label" th:text="#{msg.service-form.code}"></label>
+      <input type="text" th:field="*{code}" id="code" class="form-control" required/>
+      <div th:if="${#fields.hasErrors('code')}" class="text-danger" th:errors="*{code}"></div>
+    </div>
+
+    <div class="mb-3">
+      <label for="name" class="form-label" th:text="#{msg.service-form.name}"></label>
+      <input type="text" th:field="*{name}" id="name" class="form-control" required/>
+      <div th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></div>
+    </div>
+
+    <!-- Boton SELECT para la clase Service -->
+    <div class="mb-3">
+      <label for="service" class="form-label" th:text="#{msg.service-form.category}"></label>
+      <select th:field="*{service.id}" id="service" class="form-control" required>
+        <option value="" th:text="#{msg.service-form.select-service}"></option>
+        <option th:each="service : ${listService}" th:value="${service.id}"
+                th:text="${service.name}" th:selected="${service.region?.id == service.id}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('service.id')}" class="text-danger" th:errors="*{service.id}"></div>
+    </div>
+
+    <button type="submit" class="btn btn-primary"
+            th:text="${service.id == null} ? #{msg.service-form.create} : #{msg.service-form.update}">
+    </button>
+  </form>
+
+  <!-- Volver a la lista de servicios -->
+  <a th:href="@{/services}" class="btn btn-secondary mt-3" th:text="#{msg.service-form.returnback}"></a>
+</main>
+
+<!-- Incluir el fragmento del footer -->
+<footer th:replace="fragments/footer :: footer"></footer>
+
+</body>
+</html>

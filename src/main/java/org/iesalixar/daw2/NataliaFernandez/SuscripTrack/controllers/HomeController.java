@@ -1,4 +1,4 @@
-package org.iesalixar.daw2.NataliaFernandez.proyecto_natalia.controllers;
+package org.iesalixar.daw2.NataliaFernandez.SuscripTrack.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

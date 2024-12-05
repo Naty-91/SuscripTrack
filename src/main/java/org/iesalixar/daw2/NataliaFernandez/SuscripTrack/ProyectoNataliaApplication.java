@@ -1,13 +1,13 @@
-package org.iesalixar.daw2.NataliaFernandez.proyecto_natalia;
+package org.iesalixar.daw2.NataliaFernandez.SuscripTrack;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ProjectoNataliaApplication {
+public class ProyectoNataliaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProjectoNataliaApplication.class, args);
+		SpringApplication.run(ProyectoNataliaApplication.class, args);
 	}
 
 }

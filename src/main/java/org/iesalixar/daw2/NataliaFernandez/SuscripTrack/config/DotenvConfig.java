@@ -1,4 +1,4 @@
-package org.iesalixar.daw2.NataliaFernandez.proyecto_natalia.config;
+package org.iesalixar.daw2.NataliaFernandez.SuscripTrack.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.slf4j.Logger;

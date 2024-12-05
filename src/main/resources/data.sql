@@ -1,4 +1,7 @@
-INSERT INTO categories (code name) VALUES
+
+
+-- Inserción en la tabla categories
+INSERT IGNORE INTO categories (code, name) VALUES
 ('PED01', 'Plataformas de Entretenimiento Digital'),
 ('STR02', 'Gaming y Entretenimiento'),
 ('SFT02', 'Software y Herramientas de Productividad'),
@@ -12,26 +15,29 @@ INSERT INTO categories (code name) VALUES
 ('SUB10', 'Cajas de Suscripción'),
 ('SEC11', 'Seguridad Digital y Servicios de Tecnología');
 
+-- Inserción en la tabla services
+INSERT IGNORE INTO services (id, name, description, category_id) VALUES
+(1, 'Control de suscripciones', 'Gestiona y controla todas tus suscripciones a servicios de entretenimiento, plataformas digitales, etc.', 1),
+(2, 'Notificaciones de próximos pagos', 'Recibe alertas y recordatorios sobre tus próximos pagos de suscripciones y servicios.', 1),
+(3, 'Ver transacciones cargadas', 'Consulta las transacciones realizadas en tus servicios de suscripción y entretenimiento.', 1),
+(4, 'Analizar suscripciones', 'Obtén un análisis detallado de todas tus suscripciones activas y sus costos.', 1),
+(5, 'Resumen de resultados', 'Genera un resumen de todas las actividades realizadas en tus servicios de suscripción.', 1),
+(6, 'Exportar resultados', 'Exporta los resultados y análisis de tus suscripciones a un formato de archivo compatible.', 1),
+(7, 'Opciones de configuración', 'Accede a las configuraciones de tus servicios de suscripción, como pagos y renovaciones automáticas.', 1),
+(8, 'Recomendaciones de suscripción', 'Recibe sugerencias personalizadas de servicios según tu historial y preferencias.', 1),
+(9, 'Gestión de pagos recurrentes', 'Configura pagos automáticos o manuales para tus servicios de suscripción.', 1),
+(10, 'Historial de pagos', 'Consulta el historial completo de pagos realizados a los servicios de suscripción.', 1),
+(11, 'Soporte técnico', 'Accede a asistencia técnica para resolver problemas relacionados con tus servicios de suscripción.', 2),
+(12, 'Actualizaciones de software', 'Recibe notificaciones sobre nuevas actualizaciones de tus herramientas y programas.', 2),
+(13, 'Backup y recuperación de datos', 'Realiza copias de seguridad de tus datos importantes y recupéralos cuando sea necesario.', 2),
+(14, 'Control parental', 'Configura controles parentales para restringir contenido inapropiado en plataformas de entretenimiento.', 2),
+(15, 'Monitoreo de productividad', 'Mide y controla tu productividad a través de herramientas integradas en el software.', 2),
+(16, 'Planificación de tareas', 'Organiza y gestiona tus tareas y proyectos con herramientas avanzadas de planificación.', 2),
+(17, 'Configuración de privacidad', 'Ajusta y personaliza las opciones de privacidad en tus herramientas de productividad.', 2),
+(18, 'Análisis de rendimiento', 'Obtén un análisis detallado del rendimiento de tus herramientas y servicios de software.', 2),
+(19, 'Gestión de cuentas y usuarios', 'Administra cuentas de usuarios y accesos a servicios dentro de tu software de productividad.', 2),
+(20, 'Curso de formación online', 'Accede a cursos online de formación en diversas áreas y especialidades.', 3),
+(21, 'Examen y evaluación de cursos', 'Realiza exámenes y evaluaciones en línea para certificar tu conocimiento en diversos temas.', 3);
 
-INSERT INTO services (name, description, categories_id) VALUES
-('Control de suscripciones', 'Gestiona y controla todas tus suscripciones a servicios de entretenimiento, plataformas digitales, etc.', 1),  -- Categoria: Plataformas de Entretenimiento Digital
-('Notificaciones de próximos pagos', 'Recibe alertas y recordatorios sobre tus próximos pagos de suscripciones y servicios.', 1),  -- Categoria: Plataformas de Entretenimiento Digital
-('Ver transacciones cargadas', 'Consulta las transacciones realizadas en tus servicios de suscripción y entretenimiento.', 1),  -- Categoria: Plataformas de Entretenimiento Digital
-('Analizar suscripciones', 'Obtén un análisis detallado de todas tus suscripciones activas y sus costos.', 1),  -- Categoria: Plataformas de Entretenimiento Digital
-('Resumen de resultados', 'Genera un resumen de todas las actividades realizadas en tus servicios de suscripción.', 1),  -- Categoria: Plataformas de Entretenimiento Digital
-('Exportar resultados', 'Exporta los resultados y análisis de tus suscripciones a un formato de archivo compatible.', 1),  -- Categoria: Plataformas de Entretenimiento Digital
-('Opciones de configuración', 'Accede a las configuraciones de tus servicios de suscripción, como pagos y renovaciones automáticas.', 1),  -- Categoria: Plataformas de Entretenimiento Digital
-('Recomendaciones de suscripción', 'Recibe sugerencias personalizadas de servicios según tu historial y preferencias.', 1),  -- Categoria: Plataformas de Entretenimiento Digital
-('Gestión de pagos recurrentes', 'Configura pagos automáticos o manuales para tus servicios de suscripción.', 1),  -- Categoria: Plataformas de Entretenimiento Digital
-('Historial de pagos', 'Consulta el historial completo de pagos realizados a los servicios de suscripción.', 1),  -- Categoria: Plataformas de Entretenimiento Digital
-('Soporte técnico', 'Accede a asistencia técnica para resolver problemas relacionados con tus servicios de suscripción.', 2),  -- Categoria: Software y Herramientas de Productividad
-('Actualizaciones de software', 'Recibe notificaciones sobre nuevas actualizaciones de tus herramientas y programas.', 2),  -- Categoria: Software y Herramientas de Productividad
-('Backup y recuperación de datos', 'Realiza copias de seguridad de tus datos importantes y recupéralos cuando sea necesario.', 2),  -- Categoria: Software y Herramientas de Productividad
-('Control parental', 'Configura controles parentales para restringir contenido inapropiado en plataformas de entretenimiento.', 2),  -- Categoria: Software y Herramientas de Productividad
-('Monitoreo de productividad', 'Mide y controla tu productividad a través de herramientas integradas en el software.', 2),  -- Categoria: Software y Herramientas de Productividad
-('Planificación de tareas', 'Organiza y gestiona tus tareas y proyectos con herramientas avanzadas de planificación.', 2),  -- Categoria: Software y Herramientas de Productividad
-('Configuración de privacidad', 'Ajusta y personaliza las opciones de privacidad en tus herramientas de productividad.', 2),  -- Categoria: Software y Herramientas de Productividad
-('Análisis de rendimiento', 'Obtén un análisis detallado del rendimiento de tus herramientas y servicios de software.', 2),  -- Categoria: Software y Herramientas de Productividad
-('Gestión de cuentas y usuarios', 'Administra cuentas de usuarios y accesos a servicios dentro de tu software de productividad.', 2),  -- Categoria: Software y Herramientas de Productividad
-('Curso de formación online', 'Accede a cursos online de formación en diversas áreas y especialidades.', 3),  -- Categoria: Educación y Formación Online
-('Examen y evaluación de cursos', 'Realiza exámenes y evaluaciones en línea para certificar tu conocimiento en diversos temas.', 3);  -- Categoria: Educación y Formación Online
+
+

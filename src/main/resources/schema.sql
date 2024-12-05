@@ -1,4 +1,3 @@
-
 CREATE TABLE IF NOT EXISTS categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     code VARCHAR(5) NOT NULL UNIQUE,
@@ -7,10 +6,9 @@ CREATE TABLE IF NOT EXISTS categories (
 
 CREATE TABLE IF NOT EXISTS services (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    code VARCHAR(20) NOT NULL,
     name VARCHAR(100) NOT NULL,
     description VARCHAR(250) NOT NULL,
     category_id INT NOT NULL,
     FOREIGN KEY (category_id) REFERENCES categories(id)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE
 );
