@@ -14,38 +14,44 @@
         <p th:text="${errorMessage}"></p>
     </div>
 
-    <!-- Muestra la lista de servicios en una tabla -->
-    <table class="table table-bordered mt-3">
-        <thead>
-        <tr>
-            <th th:text="#{msg.service.id}"></th>
-            <th th:text="#{msg.service.code}"></th>
-            <th th:text="#{msg.service.name}"></th>
-            <th th:text="#{msg.service.description}"></th>
-            <th th:text="#{msg.service.actions}"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="service : ${listServices}">
-            <td th:text="${service.id}"></td>
-            <td th:text="${service.code}"></td>
-            <td th:text="${service.name}"></td>
-            <td th:text="${service.description}"></td>
-            <td>
-                <!-- Botón para editar -->
-                <a th:href="@{/services/edit(id=${service.id})}" class="btn btn-success btn-sm" th:text="#{msg.service.edit}"></a>
-                <!-- Botón para eliminar -->
-                <form th:action="@{/services/delete}" method="post" class="d-inline">
-                    <input type="hidden" name="id" th:value="${service.id}"/>
-                    <button type="submit" class="btn btn-danger btn-sm"
-                            th:onclick="return confirm('#{msg.service.confirm}');"
-                            th:text="#{msg.service.delete}">
-                    </button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <!-- Envolvemos la tabla en un contenedor responsivo  para que se adapte a cualquier tamaño de pantalla-->
+    <div class="table-responsive"> <!-- Modificación aquí -->
+        <table class="table table-bordered mt-3">
+            <thead>
+            <tr>
+                <th th:text="#{msg.service.id}"></th>
+                <th th:text="#{msg.service.code}"></th>
+                <th th:text="#{msg.service.name}"></th>
+                <th th:text="#{msg.service.description}"></th>
+                <th th:text="#{msg.service.actions}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="service : ${listServices}">
+                <td th:text="${service.id}"></td>
+                <!-- Controlar si el código es nulo -->
+                <td th:text="${service.code != null} ? ${service.code} : '-'"></td>
+                <td th:text="${service.name}"></td>
+                <td th:text="${service.description}"></td>
+                <td>
+                    <!-- Alineación horizontal de los botones editar y eliminar -->
+                    <div class="d-flex gap-2">
+                        <a th:href="@{/services/edit(id=${service.id})}" class="btn btn-success btn-sm" th:text="#{msg.service.edit}"></a>
+                        <form th:action="@{/services/delete}" method="post" class="d-inline">
+                            <input type="hidden" name="id" th:value="${service.id}" />
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                    th:onclick="'return confirm(\'' + #{msg.service.confirm} + '\');'"
+                                    th:text="#{msg.service.delete}">
+                            </button>
+
+                        </form>
+                    </div>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
     <!-- Botón para añadir un nuevo servicio -->
     <a th:href="@{/services/new}" class="btn btn-success mt-3" th:text="#{msg.service.add}"></a>

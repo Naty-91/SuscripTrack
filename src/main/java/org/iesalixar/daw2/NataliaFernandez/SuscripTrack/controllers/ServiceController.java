@@ -1,10 +1,10 @@
 package org.iesalixar.daw2.NataliaFernandez.SuscripTrack.controllers;
 
 import jakarta.validation.Valid;
-import org.iesalixar.daw2.NataliaFernandez.SuscripTrack.entities.Service;
 import org.iesalixar.daw2.NataliaFernandez.SuscripTrack.repositories.ServiceRepository;
-import org.iesalixar.daw2.NataliaFernandez.SuscripTrack.repositories.ServiceRepository;
+import org.iesalixar.daw2.NataliaFernandez.SuscripTrack.repositories.CategoryRepository;
 import org.iesalixar.daw2.NataliaFernandez.SuscripTrack.entities.Service;
+import org.iesalixar.daw2.NataliaFernandez.SuscripTrack.entities.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,139 +19,116 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-/**
- * Controlador que maneja las operaciones CRUD para la entidad `Services`.
- */
 @Controller
 @RequestMapping("/services")
-
 public class ServiceController {
 
-
     private static final Logger logger = LoggerFactory.getLogger(ServiceController.class);
-
 
     @Autowired
     private ServiceRepository serviceRepository;
 
     @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
     private MessageSource messageSource;
-
-
-
 
     @GetMapping
     public String listServices(Model model) {
-        logger.info("Solicitando la lista de todas los servicios...");
-        List<Service> listService = serviceRepository.findAll();  // Usar findAll() de JpaRepository
-        model.addAttribute("listServices", listService);
+        logger.info("Solicitando la lista de todos los servicios...");
+        try {
+            List<Service> listServices = serviceRepository.findAll();
+            logger.info("Se han cargado {} servicios.", listServices.size());
+            model.addAttribute("listServices", listServices);
+        } catch (Exception e) {
+            logger.error("Error al listar los servicios: {}", e.getMessage());
+            model.addAttribute("errorMessage", "Error al listar los servicios.");
+        }
         return "services";
     }
 
-
-
-
-
-
-    // Formulario para nueva categoría
     @GetMapping("/new")
-    public String showNewForm(Model model) {
+    public String showNewServiceForm(Model model) {
         model.addAttribute("service", new Service());
-        model.addAttribute("listService", serviceRepository.findAll());
+        model.addAttribute("listCategories", categoryRepository.findAll());
         return "service-form";
     }
 
-
-    // Formulario para editar categoría
     @GetMapping("/edit")
-    public String showEditForm(@RequestParam("id") Long id, Model model) {
-        logger.info("Mostrando formulario de edición para el servicio con ID {}", id);
-
-        Optional<Service> serviceOpt = serviceRepository.findById(id);  // Usar findById() correctamente
-        if (serviceOpt.isPresent()) {
-            model.addAttribute("service", serviceOpt.get());
+    public String showEditServiceForm(@RequestParam("id") Long id, Model model) {
+        Optional<Service> optionalService = serviceRepository.findById(id);
+        if (optionalService.isPresent()) {
+            model.addAttribute("service", optionalService.get());
+            model.addAttribute("listCategories", categoryRepository.findAll());
         } else {
-            logger.warn("No se encontró el servicio con ID {}", id);
-            model.addAttribute("errorMessage", "Servicio no encontrada.");
+            model.addAttribute("errorMessage", "Servicio no encontrado.");
             return "redirect:/services";
         }
-
-        model.addAttribute("listService", serviceRepository.findAll());
         return "service-form";
     }
 
-    //INSERT
-
     @PostMapping("/insert")
-    public String insertService(@Valid @ModelAttribute("service") Service service, BindingResult result, RedirectAttributes redirectAttributes, Locale locale) {
-        logger.info("Insertando nuevo servicioi con código {}", service.getCode());
+    public String insertService(@Valid @ModelAttribute("service") Service service, BindingResult result,
+                                RedirectAttributes redirectAttributes, Locale locale, Model model) {
+        logger.info("Insertando nuevo servicio con código {}", service.getCode());
         try {
             if (result.hasErrors()) {
-                return "service-form";  // Devuelve el formulario para mostrar los errores de validación
+                model.addAttribute("listCategories", categoryRepository.findAll());
+                return "service-form";
             }
             if (serviceRepository.existsServiceByCode(service.getCode())) {
-                logger.warn("El código de la región {} ya existe.", service.getId());
+                logger.warn("El código del servicio {} ya existe.", service.getCode());
                 String errorMessage = messageSource.getMessage("msg.service-controller.insert.codeExist", null, locale);
                 redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
                 return "redirect:/services/new";
             }
-            serviceRepository.save(service);  // Cambia insertService a save
-            logger.info("Región {} insertada con éxito.", service.getId());
+            serviceRepository.save(service);
+            logger.info("Servicio {} insertado con éxito.", service.getCode());
         } catch (Exception e) {
-            logger.error("Error al insertar la región {}: {}", service.getId(), e.getMessage());
+            logger.error("Error al insertar el servicio {}: {}", service.getCode(), e.getMessage());
             String errorMessage = messageSource.getMessage("msg.service-controller.insert.error", null, locale);
             redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
         }
-        return "redirect:/services"; // Redirigir a la lista de categories
+        return "redirect:/services";
     }
 
-
-    //UPDATE
-
     @PostMapping("/update")
-    public String updateService(@Valid @ModelAttribute("service") Service service, BindingResult result, RedirectAttributes redirectAttributes, Locale locale) {
-        logger.info("Actualizando categoria con ID {}", service.getId());
+    public String updateService(@Valid @ModelAttribute("service") Service service, BindingResult result,
+                                RedirectAttributes redirectAttributes, Locale locale, Model model) {
+        logger.info("Actualizando servicio con ID {}", service.getId());
         try {
             if (result.hasErrors()) {
-                return "service-form";  // Devuelve el formulario para mostrar los errores de validación
+                model.addAttribute("listCategories", categoryRepository.findAll());
+                return "service-form";
             }
-            if (serviceRepository.existsServiceByCode(service.getCode()) && !serviceRepository.findById(service.getId()).get().getCode().equals(service.getCode())) {
-                logger.warn("El código del servicio{} ya existe para otra servicio", service.getCode());
+            if (serviceRepository.existsServiceByCode(service.getCode()) &&
+                    !serviceRepository.findById(service.getId()).get().getCode().equals(service.getCode())) {
+                logger.warn("El código del servicio {} ya existe para otro servicio.", service.getCode());
                 String errorMessage = messageSource.getMessage("msg.service-controller.update.codeExist", null, locale);
                 redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
                 return "redirect:/services/edit?id=" + service.getId();
             }
-            serviceRepository.save(service);  // Cambia updateService a save
-            logger.info("Servicio con ID {} actualizada con éxito.", service.getId());
+            serviceRepository.save(service);
+            logger.info("Servicio con ID {} actualizado con éxito.", service.getId());
         } catch (Exception e) {
             logger.error("Error al actualizar el servicio con ID {}: {}", service.getId(), e.getMessage());
             String errorMessage = messageSource.getMessage("msg.service-controller.update.error", null, locale);
             redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
         }
-        return "redirect:/services"; // Redirigir a la lista de servicios
-    }
-
-    //DELETE
-
-    @PostMapping("/delete")
-    public String deleteService(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
-        logger.info("Eliminando región con ID {}", id);
-
-        Optional<Service> service = serviceRepository.findById(id);
-        if (service != null) {
-            serviceRepository.deleteById(id);
-
-            logger.info("Service con ID {} eliminada con exito.", id);
-            redirectAttributes.addFlashAttribute("successMessage", "Categoría elimianda con éxito");
-        } else {
-            logger.warn("No se encontró la categoría con ID {}", id);
-            redirectAttributes.addFlashAttribute("errorMessage", "Error al eliminar la service.");
-        }
         return "redirect:/services";
     }
 
-
-
-
-
+    @PostMapping("/delete")
+    public String deleteService(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
+        logger.info("Eliminando servicio con ID {}", id);
+        try {
+            serviceRepository.deleteById(id);
+            logger.info("Servicio con ID {} eliminado con éxito.", id);
+        } catch (Exception e) {
+            logger.error("Error al eliminar el servicio con ID {}: {}", id, e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Error al eliminar el servicio.");
+        }
+        return "redirect:/services";
+    }
 }

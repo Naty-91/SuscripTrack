@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head ('SuscripTrack- Insertar/Actualizar Servicio')"></head>
+<head th:replace="fragments/head :: head ('SuscripTrack - Insertar/Actualizar Servicio')"></head>
 
 <body>
 
@@ -8,7 +8,7 @@
 <header th:replace="fragments/header :: header"></header>
 
 <main class="container mt-5">
-  <h1 th:text="${service.id == null} ? #{msg.service-form.add} : #{msgs-service.edit}"></h1>
+  <h1 th:text="${service.id == null} ? #{msg.service-form.add} : #{msg.service-form.edit}"></h1>
 
   <!-- Mostrar un mensaje de error si existe -->
   <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
@@ -30,20 +30,26 @@
       <div th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></div>
     </div>
 
-    <!-- Boton SELECT para la clase Service -->
+    <!-- Campo SELECT para la clase Category -->
     <div class="mb-3">
-      <label for="service" class="form-label" th:text="#{msg.service-form.category}"></label>
-      <select th:field="*{service.id}" id="service" class="form-control" required>
-        <option value="" th:text="#{msg.service-form.select-service}"></option>
-        <option th:each="service : ${listService}" th:value="${service.id}"
-                th:text="${service.name}" th:selected="${service.region?.id == service.id}"></option>
+      <label for="category" class="form-label" th:text="#{msg.service-form.category}"></label>
+      <select th:field="*{category.id}" id="category" class="form-control" required>
+        <option value="" disabled selected th:text="#{msg.service-form.select-category}"></option>
+        <option th:each="category : ${listCategories}" th:value="${category.id}"
+                th:text="${category.name}" th:selected="${service.category?.id == category.id}"></option>
       </select>
-      <div th:if="${#fields.hasErrors('service.id')}" class="text-danger" th:errors="*{service.id}"></div>
+      <div th:if="${#fields.hasErrors('category.id')}" class="text-danger" th:errors="*{category.id}"></div>
+    </div>
+
+    <!-- Campo de descripción -->
+    <div class="mb-3">
+      <label for="description" class="form-label" th:text="#{msg.service-form.description}"></label>
+      <textarea th:field="*{description}" id="description" class="form-control" rows="4" required></textarea>
+      <div th:if="${#fields.hasErrors('description')}" class="text-danger" th:errors="*{description}"></div>
     </div>
 
     <button type="submit" class="btn btn-primary"
-            th:text="${service.id == null} ? #{msg.service-form.create} : #{msg.service-form.update}">
-    </button>
+            th:text="${service.id == null} ? #{msg.service-form.create} : #{msg.service-form.update}"></button>
   </form>
 
   <!-- Volver a la lista de servicios -->

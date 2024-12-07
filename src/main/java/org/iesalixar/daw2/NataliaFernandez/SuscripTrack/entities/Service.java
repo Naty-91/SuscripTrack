@@ -20,9 +20,10 @@ public class Service {
     private Long id;
 
     @NotEmpty(message = "{msg.service.code.notEmpty}")
-    @Size(max = 2, message = "{msg.service.code.size}")
+    @Size(max = 20, message = "{msg.service.code.size}")
     @Column(name = "code", nullable = false, length = 20)
     private String code;
+
 
     @NotEmpty(message = "{msg.service.name.notEmpty}")
     @Size(max = 100, message = "{msg.service.name.size}")
