@@ -44,13 +44,11 @@ public class SecurityConfig {
                             .requestMatchers("/", "/hello").permitAll() // Acceso anónimo
                             .requestMatchers("/admin").hasRole("ADMIN") // Solo ADMIN
                             .requestMatchers(
-                                    "/regions",
-                                    "/provinces",
-                                    "/supermarkets",
-                                    "/locations",
+                                    "/services",
                                     "/categories"
                             ).hasRole("MANAGER") // Solo MANAGER
-                            .requestMatchers("/tickets").hasRole("USER") // Solo USER
+                            .requestMatchers("/services",
+                                    "/categories").hasRole("USER") // Solo USER
                             .anyRequest().authenticated(); // Cualquier otra solicitud requiere autenticación
                 })
                 .formLogin(form -> {

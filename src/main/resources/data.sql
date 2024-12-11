@@ -39,31 +39,31 @@ INSERT IGNORE INTO services (id, name, description, category_id) VALUES
 (20, 'Curso de formación online', 'Accede a cursos online de formación en diversas áreas y especialidades.', 3),
 (21, 'Examen y evaluación de cursos', 'Realiza exámenes y evaluaciones en línea para certificar tu conocimiento en diversos temas.', 3);
 
+-- Insertar datos de ejemplo para 'roles'
+INSERT IGNORE INTO roles (id, name) VALUES
+(1, 'ROLE_ADMIN'),
+(2, 'ROLE_MANAGER'),
+(3, 'ROLE_USER');
 
--- Crear la tabla 'users'
-CREATE TABLE IF NOT EXISTS users (
-   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-   username VARCHAR(50) UNIQUE NOT NULL,
-   password VARCHAR(100) NOT NULL,
-   enabled BOOLEAN NOT NULL,
-   first_name VARCHAR(50) NOT NULL,
-   last_name VARCHAR(50) NOT NULL,
-   image VARCHAR(255),
-   created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-   last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   last_password_change_date TIMESTAMP
-);
 
--- Crear la tabla 'roles'
-CREATE TABLE IF NOT EXISTS roles (
-   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-   name VARCHAR(50) UNIQUE NOT NULL
-);
--- Crear la tabla 'user_roles'
-CREATE TABLE IF NOT EXISTS user_roles (
-   user_id BIGINT NOT NULL,
-   role_id BIGINT NOT NULL,
-   PRIMARY KEY (user_id, role_id),
-   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-   FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
-);
+-- Insertar datos de ejemplo para 'users'. La contraseña de cada usuario es password
+INSERT IGNORE INTO users (id, username, password, enabled, first_name, last_name, image, created_date, last_modified_date, last_password_change_date) VALUES
+(1, 'admin', '$2b$12$FVRijCavVZ7Qt15.CQssHe9m/6eLAdjAv0PiOKFIjMU161wApxzye', true, 'Admin', 'User', '/images/admin.jpg', NOW(), NOW(), NOW()),
+(2, 'manager', '$2b$12$FVRijCavVZ7Qt15.CQssHe9m/6eLAdjAv0PiOKFIjMU161wApxzye', true, 'Manager', 'User', '/images/manager.jpg', NOW(), NOW(), NOW()),
+(3, 'normal', '$2b$12$FVRijCavVZ7Qt15.CQssHe9m/6eLAdjAv0PiOKFIjMU161wApxzye', true, 'Manager', 'User', '/images/user.jpg', NOW(), NOW(), NOW()),
+(4, 'Naty-91', 'prueba1', true, 'Regular', 'User', '/images/user.jpg', NOW(), NOW(), NOW());
+
+
+-- Asignar el rol de administrador al usuario con id 1
+INSERT IGNORE INTO user_roles (user_id, role_id) VALUES
+(1, 1);
+-- Asignar el rol de gestor al usuario con id 2
+INSERT IGNORE INTO user_roles (user_id, role_id) VALUES
+(2, 2);
+-- Asignar el rol de usuario normal al usuario con id 3
+INSERT IGNORE INTO user_roles (user_id, role_id) VALUES
+(3, 3);
+
+-- Asignar el rol de usuario normal al usuario con id 3
+INSERT IGNORE INTO user_roles (user_id, role_id) VALUES
+(4, 2);
